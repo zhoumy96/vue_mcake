@@ -5,7 +5,7 @@
         <h2 @click="toDetail(item._id)">{{item.title}}</h2>
         <p>{{item.time}}</p>
       </div>
-      <img class='newsImg' v-bind:src="item.img" alt="">
+      <img class='newsImg' v-lazy="item.img" alt="">
     </div>
   </div>
 </template>

@@ -34,15 +34,14 @@
 
 <style lang="less">
   .news-content{
-
-  }
-  .title{
-    text-align: center;
-    h2{
-      margin-bottom: 12px;
+    .title{
+      text-align: center;
+      h2{
+        margin-bottom: 12px;
+      }
     }
-  }
-  .detail{
-    margin-top: 12px;
+    .detail{
+      margin-top: 12px;
+    }
   }
 </style>

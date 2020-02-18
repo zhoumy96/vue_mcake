@@ -1,0 +1,95 @@
+### 查询所有用户
+GET http://localhost:3000/user/users
+Content-Type: application/json
+
+### 注册
+POST http://localhost:3000/user/signUp
+Content-Type: application/json
+
+{
+  "userName":"user1",
+  "userPwd":"123456"
+}
+
+### 登录
+POST http://localhost:3000/user/signIn
+Content-Type: application/json
+
+{
+  "userName":"user1",
+  "userPwd":"123456"
+}
+
+### 充值
+POST http://localhost:3000/user/recharge
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNDRmMGQ0NzMxMzdjMWViODdlMGRjNiIsImlhdCI6MTU4MTU4MjM2M30.BsBLrfjaGN9HHYKMPzkbK0j0G9imZUzqq0S63iQyCDo
+
+{
+  "money":"11"
+}
+
+### 新增收获地址
+POST http://localhost:3000/user/addAddress
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNDRmMGQ0NzMxMzdjMWViODdlMGRjNiIsImlhdCI6MTU4MTU4MjM2M30.BsBLrfjaGN9HHYKMPzkbK0j0G9imZUzqq0S63iQyCDo
+
+{
+  "name":"收货人2",
+  "address":"收货地址2",
+  "phone":"联系方式2"
+}
+
+### 修改收获地址
+POST http://localhost:3000/user/changeAddress/5e4532593b41380c448f0e50
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNDRmMGQ0NzMxMzdjMWViODdlMGRjNiIsImlhdCI6MTU4MTU4MjM2M30.BsBLrfjaGN9HHYKMPzkbK0j0G9imZUzqq0S63iQyCDo
+
+{
+  "name":"收货人3",
+  "address":"收货地址3",
+  "phone":"联系方式3"
+}
+
+### 删除收获地址
+POST http://localhost:3000/user/deleteAddress/5e452646727d4c32e0857bad
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNDRmMGQ0NzMxMzdjMWViODdlMGRjNiIsImlhdCI6MTU4MTU4MjM2M30.BsBLrfjaGN9HHYKMPzkbK0j0G9imZUzqq0S63iQyCDo
+
+### 获取所有新闻
+GET http://localhost:3000/news/getNews
+Content-Type: application/json
+
+### 获取单条新闻
+GET http://localhost:3000/news/getNews
+Content-Type: application/json
+
+{
+  "id": "5e465b9c0071ba19b07f9b8f"
+}
+### 添加新闻
+POST http://localhost:3000/news/addNews
+Content-Type: application/json
+
+{
+  "title": "title2",
+  "detail": "detail2",
+  "img": "img2"
+}
+
+### 修改新闻
+POST http://localhost:3000/news/changeNews/5e45457b5656032e287803fe
+Content-Type: application/json
+
+{
+  "title": "title2-1",
+  "detail": "detail2-1",
+  "img": "img2-1"
+}
+
+### 删除新闻
+POST http://localhost:3000/news/deleteNews/5e45457b5656032e287803fe
+Content-Type: application/json
+
+
+###

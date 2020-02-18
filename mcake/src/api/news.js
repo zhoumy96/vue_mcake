@@ -1,0 +1,19 @@
+import axios from './http'; // 导入http中创建的axios实例
+import qs from 'qs'; // 根据需求是否导入qs模块
+
+const news = {
+  // 获取新闻
+  getNews(id){
+    if(id){
+      return axios.get(`news/getNews`, {
+        params: {
+          id
+        }
+      });
+    }
+    return axios.get(`news/getNews`, );
+  }
+
+}
+
+export default news;

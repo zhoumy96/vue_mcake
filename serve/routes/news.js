@@ -6,9 +6,9 @@ const moment = require('moment');
 // 获取新闻
 router.get('/getNews', async (req, res) => {
     let id = req.param('id');
-    if(id){
+    if (id) {
         await News.findById(id)
-            .then(news=>{
+            .then(news => {
                 res.send({
                     status: '0',
                     msg: "获取成功",
@@ -22,7 +22,7 @@ router.get('/getNews', async (req, res) => {
                 });
             });
 
-    }else{
+    } else {
         const news = await News.find();
         res.send({
             status: '0',
@@ -59,7 +59,7 @@ router.post('/changeNews/:id', async (req, res) => {
     const news = await News.findById(id)
         .catch(err => {
             res.send({
-                status: 0,
+                status: 1,
                 msg: "新闻不存在",
                 data: err
             });
@@ -68,48 +68,48 @@ router.post('/changeNews/:id', async (req, res) => {
     news.detail = req.body.detail;
     news.img = req.body.img;
     await news.save()
-        .then(news=>{
-          res.send({
-            status: 0,
-            msg: "修改成功",
-            data: news
-          })
+        .then(news => {
+            res.send({
+                status: 0,
+                msg: "修改成功",
+                data: news
+            })
         })
-        .catch(err=>{
-          res.send({
-            status: 0,
-            msg: "修改失败",
-            data: err
-          })
+        .catch(err => {
+            res.send({
+                status: 1,
+                msg: "修改失败",
+                data: err
+            })
         });
 
 });
 
 // 删除新闻
 router.post('/deleteNews/:id', async (req, res) => {
-  let id = req.params.id;
-  const news = await News.findById(id)
-      .catch(err => {
-        res.send({
-          status: 0,
-          msg: "新闻不存在",
-          data: err
+    let id = req.params.id;
+    const news = await News.findById(id)
+        .catch(err => {
+            res.send({
+                status: 1,
+                msg: "新闻不存在",
+                data: err
+            });
         });
-      });
-  await news.remove()
-      .then(news=>{
-        res.send({
-          status: 0,
-          msg: "删除成功",
+    await news.remove()
+        .then(news => {
+            res.send({
+                status: 0,
+                msg: "删除成功",
+            });
+        })
+        .catch(err => {
+            res.send({
+                status: 1,
+                msg: "删除失败",
+                data: err
+            });
         });
-      })
-      .catch(err=>{
-        res.send({
-          status: 0,
-          msg: "删除失败",
-          data: err
-        });
-      });
 
 });
 

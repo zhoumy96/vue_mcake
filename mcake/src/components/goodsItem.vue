@@ -79,7 +79,7 @@
         methods: {
             //进入详情页
             toDetail() {
-                this.$router.push({name: 'goodsDetail', params: {goodsId: this.goods.goodsId}})
+                this.$router.push({name: 'goodsDetail', params: {goodsId: this.goods._id}})
             },
             //关闭弹窗
             closeAddCartBox() {

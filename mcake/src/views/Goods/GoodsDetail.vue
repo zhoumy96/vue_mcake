@@ -57,15 +57,13 @@
 </template>
 
 <script>
-    import axios from "axios";
-
     export default {
         name: "GoodsDetail",
         data() {
             return {
-                goodsData:{},
+                goodsData:{},//商品详情
                 skuList:[],
-                sku:{},
+                sku:{},//当前选中的sku
             }
         },
         mounted() {
@@ -75,12 +73,13 @@
             // 获取商品的详情
             getData(goodsId) {
                 this.$api.goods.goodsDetail(goodsId).then(res=>{
-                    console.log(res);
                     if(res.status == '0'){
                         this.goodsData = res.data;
                         this.skuList = res.data.skuList;
                         this.sku = this.skuList[0];
                     }
+                }).catch(err=>{
+                  this.$message.error(err)
                 })
             },
             // 选择不同的sku
@@ -94,9 +93,7 @@
                 return;
               }
               let params = {
-                'goodsId': this.goodsData.goodsId,//商品id
-                'goodsNameCH': this.goodsData.goodsNameCH,//商品中文名称
-                'goodsNameEN': this.goodsData.goodsNameEN,//商品英文名称
+                'goodsName': this.goodsData.goodsNameCH,//商品中文名称
                 'price': this.price,// 单价
                 'img': this.goodsData.img,
                 'sku': {
@@ -146,7 +143,7 @@
         .detail{
           width: 600px;
           .info{
-            height: 500px;
+            height: 450px;
             padding-left: 109px;
             border-bottom: 1px solid #d6d6d6;
             color: black;
@@ -170,7 +167,7 @@
               font-size: 14px;
             }
             span + p{
-              margin-top: 84px;
+              margin-top: 44px;
             }
             p>span:nth-child(1){
               display: inline-block;

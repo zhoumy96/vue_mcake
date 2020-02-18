@@ -127,9 +127,9 @@ router.post('/addAddress', auth, async (req, res) => {
     req.user.addressList.push(address);
     await req.user.save();
     res.send({
-        status:0,
-        msg:"新增成功",
-        data:req.user.addressList
+        status: 0,
+        msg: "新增成功",
+        data: req.user.addressList
     });
 });
 
@@ -137,49 +137,49 @@ router.post('/addAddress', auth, async (req, res) => {
 router.post('/changeAddress/:id', auth, async (req, res) => {
     let id = req.params.id;
     console.log(`req.body is ${JSON.stringify(req.body)}`);
-    req.user.addressList.forEach((_)=>{
-        if(_._id == id){
+    req.user.addressList.forEach((_) => {
+        if (_._id == id) {
             _.name = req.body.name;
             _.address = req.body.address;
             _.phone = req.body.phone;
-        }else{
+        } else {
             res.send({
-                status:1,
-                msg:"地址不存在",
-                data:req.user.addressList
+                status: 1,
+                msg: "地址不存在",
+                data: req.user.addressList
             });
         }
     });
     await req.user.save();
     // console.log(`${JSON.stringify(req.user.addressList)}`);
     res.send({
-        status:0,
-        msg:"修改成功",
-        data:req.user.addressList
+        status: 0,
+        msg: "修改成功",
+        data: req.user.addressList
     });
 });
 
 // 删除收获地址
 router.post('/deleteAddress/:id', auth, async (req, res) => {
     let id = req.params.id;
-    req.user.addressList.forEach((_)=>{
+    req.user.addressList.forEach((_) => {
         // console.log(`_ is ${JSON.stringify(_)}`);
-        if(_._id == id){
+        if (_._id == id) {
             req.user.addressList.remove(_);
-        }else{
+        } else {
             res.send({
-                status:1,
-                msg:"地址不存在",
-                data:req.user.addressList
+                status: 1,
+                msg: "地址不存在",
+                data: req.user.addressList
             });
         }
     });
     await req.user.save();
     console.log(`${JSON.stringify(req.user.addressList)}`);
     res.send({
-        status:0,
-        msg:"删除成功",
-        data:req.user.addressList
+        status: 0,
+        msg: "删除成功",
+        data: req.user.addressList
     });
 });
 

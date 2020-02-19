@@ -52,8 +52,44 @@ router.post('/goodsDetail', async (req, res) => {
 
 // 新增商品
 router.post('/addGoods', async (req, res) => {
+    let goods = req.body;
+    console.log(goods);
+    await Goods.create(goods)
+        .then(goods => {
+            res.send({
+                status: '0',
+                msg: '添加成功',
+                data: goods
+            });
+        }).catch(err => {
+            res.send({
+                status: '1',
+                msg: '添加失败',
+                data:err
+            });
+        });
+});
 
-})
 
+// 修改商品
+router.post('/changeGoods/:id', async (req, res) => {
+    let id = req.params.id;
+    let goods = req.body;
+    console.log(goods);
+    // await Goods.create(goods)
+    //     .then(goods => {
+    //         res.send({
+    //             status: '0',
+    //             msg: '添加成功',
+    //             data: goods
+    //         });
+    //     }).catch(err => {
+    //         res.send({
+    //             status: '1',
+    //             msg: '添加失败',
+    //             data:err
+    //         });
+    //     });
+});
 
 module.exports = router;

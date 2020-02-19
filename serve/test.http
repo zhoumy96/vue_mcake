@@ -91,5 +91,37 @@ Content-Type: application/json
 POST http://localhost:3000/news/deleteNews/5e45457b5656032e287803fe
 Content-Type: application/json
 
+### 新增商品
+POST http://localhost:3000/goods/addGoods
+Content-Type: application/json
+
+{
+  "goodsName": "白色恋人",
+  "skuList": [
+    {
+      "size": "15cm*7cm",
+      "weight": "1磅(454g)",
+      "fit": "适合2-3人食",
+      "tablewareNum": 5,
+      "price": "218.00"
+    },
+    {
+      "size": "19cm*7cm",
+      "weight": "2磅(908g)",
+      "fit": "适合4-7人食",
+      "tablewareNum": 10,
+      "price": "318.00"
+    }
+  ],
+  "type": 0,
+  "img": "https://static.mcake.com/new_goods/baiselianren/C0702/list/1.jpg",
+  "bannerImg": "http://mcake.oss-cn-hangzhou.aliyuncs.com/file/5c4cc19c662c2fd3/9d839289fc1ad5cc.jpg",
+  "detailImg": "https://static.mcake.com/desc/baiselianren/pc.jpg",
+  "time": "5",
+  "taste": "绵软细腻",
+  "flavor": "奶油/水果",
+  "flavorBase": "Whipping Cream",
+  "sweet": 1
+}
 
 ###

@@ -1,5 +1,7 @@
+.idea
 mcake/node_modules
 mcake/dist
+mcake/.idea
 serve/node_modules
 serve/dist
-serve/c.js
+serve/.idea

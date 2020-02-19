@@ -12,8 +12,8 @@ router.get('/', function (req, res, next) {
 // 注册
 router.post('/signUp', async (req, res) => {
     await User.create({
-        userName: req.body.userName,
-        userPwd: req.body.userPwd,
+        userName: String(req.body.userName),
+        userPwd: String(req.body.userPwd),
         money: 0,
         cartList: [],
         addressList: [],

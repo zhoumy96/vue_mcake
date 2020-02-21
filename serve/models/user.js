@@ -14,7 +14,6 @@ const UserSchema = new Schema({
             "goodsName": String,//商品名称
             "img": String,//商品图片
             "sku": {
-                "skuId": String,
                 "size": String,
                 "weight": String,
                 "fit": String,
@@ -32,8 +31,8 @@ const UserSchema = new Schema({
     ],
     "orderList": [
         {
-            "orderId":String,//订单号
-            "order":String,//订单金额
+            "order":String,//订单内容
+            "money":String,//订单金额
             "mark":String,//备注
             "status":Number//订单状态 0：未完成 1：已完成 -1：取消
         }

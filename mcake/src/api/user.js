@@ -13,8 +13,23 @@ const user = {
     return axios.post(`user/signIn`, {
       userName,userPwd
     });
-  }
-
+  },
+  //查询用户信息
+  getUser(){
+    return axios.get(`user/getUser`);
+  },
+  //充值
+  recharge(money){
+    return axios.post(`user/recharge`, {
+      money
+    });
+  },
+  //新增收获地址
+  addAddress(address){
+    return axios.post(`user/addAddress`, {
+      address
+    });
+  },
 }
 
 export default user;

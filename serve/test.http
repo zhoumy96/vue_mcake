@@ -23,7 +23,7 @@ Content-Type: application/json
 ### 充值
 POST http://localhost:3000/user/recharge
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNDRmMGQ0NzMxMzdjMWViODdlMGRjNiIsImlhdCI6MTU4MTU4MjM2M30.BsBLrfjaGN9HHYKMPzkbK0j0G9imZUzqq0S63iQyCDo
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNGE5MmEzYTFjZTJlMmUzMDljYTgxMiIsImlhdCI6MTU4MjEyMzAzNn0.AIwj0LUCMAGkDPodcXMp5r6LTMGcvas2sZfuOhEzvXc
 
 {
   "money":"11"

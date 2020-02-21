@@ -92,16 +92,41 @@ router.get('/users', async (req, res) => {
     res.send(users);
 });
 
+
 // 用户认证中间件
 const auth = async (req, res, next) => {
     const raw = String(req.headers.authorization);
     const {id} = jwt.verify(raw, SECRET);
-    req.user = await User.findById(id);
-    next();
+    await User.findById(id)
+        .then(user => {
+            if (user) {
+                console.log(`用户认证 user is ${user}`);
+                req.user = user;
+                next();
+            } else {
+                res.send({
+                    status: '1',
+                    msg: 'token过期或者不正确',
+                });
+            }
+        })
+        .catch(err => {
+            res.send({
+                status: '1',
+                msg: '用户认证错误',
+                data: err
+            });
+        });
 };
+// 获取用户信息
+router.get('/getUser', auth,async (req, res) => {
+    res.send(req.user);
+});
 
 // 充值
 router.post('/recharge', auth, async (req, res) => {
+    console.log(`req.user is ${req.user}`);
+    console.log(`req.body.money is ${req.body.money}`);
     req.user.money += Number(req.body.money);
     await req.user.save()
         .then(user => {
@@ -181,6 +206,11 @@ router.post('/deleteAddress/:id', auth, async (req, res) => {
         msg: "删除成功",
         data: req.user.addressList
     });
+});
+
+// 添加商品到购物车
+router.post('/addToCart', auth, async (req, res) => {
+    let goods = req.body;
 });
 
 // 清空购物车

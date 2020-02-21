@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 
+
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express test' });
@@ -20,5 +22,8 @@ mongoose.connection.on("error",function () {
 mongoose.connection.on("disconnected",function () {
   console.log('MongoDB connected disconnected');
 });
+
+
+
 
 module.exports = router;

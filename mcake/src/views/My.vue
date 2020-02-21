@@ -1,43 +1,129 @@
 <template>
   <div class="myContent">
-    gfd
+    <div class="myHeader">
+      <h2>{{data.userName}}</h2>
+      <div class="money">
+        <span>余额：{{data.money}}</span>
+        <el-button round size="small" class="add-cart" @click="moneyBoxVisible = true">充值</el-button>
+      </div>
+      <h2>我的订单</h2>
+      <h2>我的收货地址</h2>
+    </div>
+
+
+
+    <!--  充值弹窗 -->
+    <div class="moneyBox" @click.stop="">
+      <el-dialog :visible.sync="moneyBoxVisible" width="400px">
+        <div class="moneyBoxContent" slot="">
+          <h2>充值金额：</h2>
+          <input class="username" type="number" v-model="money">
+        </div>
+        <div slot="footer" class="moneyBoxFooter">
+          <div @click="moneyBoxVisible = false">取消</div>
+          <div @click="recharge">确认</div>
+        </div>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
 <script>
-  import {mapActions,mapGetters} from 'vuex';
   export default {
     name: "My",
     data: () => {
       return {
-        userName: '',
-        userPwd: '',
         data: [],
-
+        moneyBoxVisible:false,//充值弹窗
+        money:0,//充值金额
       }
     },
     mounted() {
-      // console.log(`this.$store.state.isLogin is ${this.$store.state.isLogin}`);
+      this. getUser();
     },
     methods: {
-      ...mapActions(['setUser']),
-      //登录
-      signIn() {
-        this.$api.user.signIn(this.userName, this.userPwd).then(res => {
-          if (res.status == '0') {
-            this.data = res.data;
-            this.setUser(res.data);
-          } else {
-            console.log(res.msg);
-          }
-        }).catch(err => {
-          console.log(err.msg);
-        });
-      }
+      ///获取用户信息
+      getUser(){
+        this.$api.user.getUser()
+        .then(res=>{
+          this.data = res;
+          let data = {
+            user:res,
+            token:this.$store.state.token
+          };
+          this.$store.commit('userStatus',data);
+        }).catch(err=>{
+          console.log(err);
+        })
+      },
+      //充值
+      recharge(){
+        this.$api.user.recharge(this.money)
+        .then(res=>{
+          this.$message.success(res.msg);
+          this.data.money = res.data;
+          this.moneyBoxVisible = false;
+        }).catch(err=>{
+          this.$message.error(err.msg);
+        })
+      },
     }
   }
 </script>
 
 <style lang="less">
+  .myContent{
+    .myHeader{
+      display: flex;
+      align-items: center;
+      h2{
+        margin-right: 22px;
+        cursor: pointer;
+      }
+      .money{
+        margin-right: 22px;
+        span{
+          margin-right: 4px;
+        }
+      }
+    }
+    .moneyBox {
+      /deep/ .el-dialog__body {
+        padding: 0;
+      }
 
+      /deep/ .el-dialog__footer {
+        padding: 0;
+      }
+
+      .moneyBoxContent {
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        input{
+          height: 28px;
+        }
+      }
+
+      .moneyBoxFooter {
+        display: flex;
+
+        div {
+          width: 50%;
+          height: 50px;
+          font-size: 20px;
+          text-align: center;
+          background-color: #ffe32a;
+          line-height: 50px;
+          cursor: pointer;
+        }
+
+        div:nth-child(1) {
+          background-color: #888;
+          color: #fff;
+        }
+      }
+    }
+  }
 </style>

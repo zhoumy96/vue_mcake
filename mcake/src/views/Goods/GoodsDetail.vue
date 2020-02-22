@@ -93,8 +93,7 @@
                 return;
               }
               let params = {
-                'goodsName': this.goodsData.goodsNameCH,//商品中文名称
-                'price': this.price,// 单价
+                'goodsName': this.goodsData.goodsName,//商品名称
                 'img': this.goodsData.img,
                 'sku': this.sku,
                 'cartNum': 1,//购买数量

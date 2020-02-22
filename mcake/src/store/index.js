@@ -25,10 +25,18 @@ export default new Vuex.Store({
         localStorage.removeItem('user');
       }
     },
+    userAddress(state,address){
+      state.user.addressList = address;
+      // console.log(`state.user is ${JSON.stringify(state.user)}`);
+      localStorage.setItem('user', JSON.stringify(state.user));
+    }
   },
   actions: {
     setUser({commit}, data) {
       commit('userStatus', data)
+    },
+    setAddress({commit}, address){
+      commit('userAddress', address)
     }
   },
   getters: {

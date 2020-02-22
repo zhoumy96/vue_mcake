@@ -32,12 +32,12 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNGE5MmEzYTFjZTJl
 ### 新增收获地址
 POST http://localhost:3000/user/addAddress
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNDRmMGQ0NzMxMzdjMWViODdlMGRjNiIsImlhdCI6MTU4MTU4MjM2M30.BsBLrfjaGN9HHYKMPzkbK0j0G9imZUzqq0S63iQyCDo
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNGE5MmEzYTFjZTJlMmUzMDljYTgxMiIsImlhdCI6MTU4MjM3MDA5Nn0.ecmRklJdKERx8mVvH5EL_rMOJ77aNkHENE42CUbdHx4
 
 {
-  "name":"收货人2",
-  "address":"收货地址2",
-  "phone":"联系方式2"
+  "name":"收货人3",
+  "address":"收货地址3",
+  "phone":"联系方式3"
 }
 
 ### 修改收获地址

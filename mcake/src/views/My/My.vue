@@ -6,10 +6,16 @@
         <span>余额：{{data.money}}</span>
         <el-button round size="small" class="add-cart" @click="moneyBoxVisible = true">充值</el-button>
       </div>
-      <h2>我的订单</h2>
-      <h2>我的收货地址</h2>
+      <router-link v-bind:to="'/my/address'">
+        <h2>我的收货地址</h2>
+      </router-link>
+      <router-link v-bind:to="'/my/address'">
+        <h2>我的订单</h2>
+      </router-link>
     </div>
-
+    <div class="myContent">
+      <router-view></router-view>
+    </div>
 
 
     <!--  充值弹窗 -->
@@ -85,6 +91,10 @@
         span{
           margin-right: 4px;
         }
+      }
+      a{
+        display: inline-block;
+        color: black;
       }
     }
     .moneyBox {

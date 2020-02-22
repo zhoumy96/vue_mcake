@@ -100,7 +100,7 @@ const auth = async (req, res, next) => {
     await User.findById(id)
         .then(user => {
             if (user) {
-                console.log(`用户认证 user is ${user}`);
+                // console.log(`用户认证 user is ${user}`);
                 req.user = user;
                 next();
             } else {
@@ -147,8 +147,8 @@ router.post('/recharge', auth, async (req, res) => {
 
 // 新增收获地址
 router.post('/addAddress', auth, async (req, res) => {
-    let address = req.body;
-    // console.log(`address is ${JSON.stringify(address)}`);
+    let address = req.body.address;
+    console.log(`address is ${JSON.stringify(address)}`);
     req.user.addressList.push(address);
     await req.user.save();
     res.send({
@@ -158,54 +158,83 @@ router.post('/addAddress', auth, async (req, res) => {
     });
 });
 
-// 修改收获地址
-router.post('/changeAddress/:id', auth, async (req, res) => {
-    let id = req.params.id;
+// 编辑收获地址
+router.post('/changeAddress', auth, async (req, res) => {
+    let id = req.body.id;
+    let address = req.body.address;
     console.log(`req.body is ${JSON.stringify(req.body)}`);
-    req.user.addressList.forEach((_) => {
-        if (_._id == id) {
-            _.name = req.body.name;
-            _.address = req.body.address;
-            _.phone = req.body.phone;
-        } else {
-            res.send({
-                status: 1,
-                msg: "地址不存在",
-                data: req.user.addressList
-            });
+    let isChange = false;
+    for(let item of req.user.addressList){
+        if (item._id == id) {
+            item.name = address.name;
+            item.address = address.address;
+            item.phone = address.phone;
+            isChange = true;
+            break;
         }
-    });
-    await req.user.save();
-    // console.log(`${JSON.stringify(req.user.addressList)}`);
-    res.send({
-        status: 0,
-        msg: "修改成功",
-        data: req.user.addressList
-    });
+    };
+    if(isChange){
+        res.send({
+            status: 0,
+            msg: "修改成功",
+            data: req.user.addressList
+        });
+        await req.user.save();
+    }else{
+        res.send({
+            status: 1,
+            msg: "地址不存在",
+            data: req.user.addressList
+        });
+    }
+    // req.user.addressList.forEach((_) => {
+    //     if (_._id == id) {
+    //         _.name = req.body.name;
+    //         _.address = req.body.address;
+    //         _.phone = req.body.phone;
+    //     } else {
+    //         res.send({
+    //             status: 1,
+    //             msg: "地址不存在",
+    //             data: req.user.addressList
+    //         });
+    //     }
+    // });
+    // await req.user.save();
+    // // console.log(`${JSON.stringify(req.user.addressList)}`);
+    // res.send({
+    //     status: 0,
+    //     msg: "修改成功",
+    //     data: req.user.addressList
+    // });
 });
 
 // 删除收获地址
-router.post('/deleteAddress/:id', auth, async (req, res) => {
-    let id = req.params.id;
-    req.user.addressList.forEach((_) => {
-        // console.log(`_ is ${JSON.stringify(_)}`);
-        if (_._id == id) {
-            req.user.addressList.remove(_);
-        } else {
-            res.send({
-                status: 1,
-                msg: "地址不存在",
-                data: req.user.addressList
-            });
+router.post('/deleteAddress', auth, async (req, res) => {
+    let id = req.body.id;
+    console.log(id);
+    let isDelete = false;
+    for(let item of req.user.addressList){
+        if (item._id == id) {
+            req.user.addressList.remove(item);
+            isDelete = true;
+            break;
         }
-    });
-    await req.user.save();
-    console.log(`${JSON.stringify(req.user.addressList)}`);
-    res.send({
-        status: 0,
-        msg: "删除成功",
-        data: req.user.addressList
-    });
+    };
+    if(isDelete){
+        res.send({
+            status: 0,
+            msg: "删除成功",
+            data: req.user.addressList
+        });
+        await req.user.save();
+    }else{
+        res.send({
+            status: 1,
+            msg: "地址不存在",
+            data: req.user.addressList
+        });
+    }
 });
 
 // 添加商品到购物车

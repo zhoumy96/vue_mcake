@@ -30,6 +30,18 @@ const user = {
       address
     });
   },
+  // 删除收获地址
+  deleteAddress(id){
+    return axios.post(`user/deleteAddress`, {
+      id
+    });
+  },
+  // 编辑收获地址
+  changeAddress(id,address){
+    return axios.post(`user/changeAddress`, {
+      id,address
+    });
+  },
 }
 
 export default user;

@@ -33,7 +33,19 @@ const routes = [
   {
     path: '/my',
     name: 'my',
-    component: resolve => require(['../views/My.vue'], resolve),
+    component: resolve => require(['../views/My/My.vue'], resolve),
+    children: [
+      {
+        path: 'address',
+        name: 'address',
+        component: resolve => require(['../views/My/Address.vue'], resolve),
+      },
+      // {
+      //   path: 'trace',
+      //   name: 'Trace',
+      //   component: Trace
+      // }
+    ]
   },
   {
     path: '/login',

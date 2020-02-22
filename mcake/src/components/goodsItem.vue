@@ -145,8 +145,10 @@
 
 <style scoped lang="less">
   .goodsItem {
+    float: left;
     width: 350px;
-
+    padding-top: 20px;
+    margin-left: 16px;
     .goodsImg {
       width: 350px;
       height: 350px;

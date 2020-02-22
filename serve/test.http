@@ -96,32 +96,32 @@ POST http://localhost:3000/goods/addGoods
 Content-Type: application/json
 
 {
-  "goodsName": "白色恋人",
+  "goodsName": "V.S.O.P生巧",
   "skuList": [
     {
-      "size": "15cm*7cm",
-      "weight": "1磅(454g)",
-      "fit": "适合2-3人食",
-      "tablewareNum": 5,
-      "price": "218.00"
+      "size": "15.5cm*11.5cm*2cm",
+      "weight": "120克(120g)",
+      "fit": "适合1-2人食",
+      "tablewareNum": 0,
+      "price": "68.00"
     },
     {
-      "size": "19cm*7cm",
-      "weight": "2磅(908g)",
-      "fit": "适合4-7人食",
-      "tablewareNum": 10,
-      "price": "318.00"
+      "size": "15.5cm*11.5cm*2cm*2盒",
+      "weight": "240克(240g)",
+      "fit": "适合2-3人食",
+      "tablewareNum": 0,
+      "price": "116.00"
     }
   ],
-  "type": 0,
-  "img": "https://static.mcake.com/new_goods/baiselianren/C0702/list/1.jpg",
-  "bannerImg": "http://mcake.oss-cn-hangzhou.aliyuncs.com/file/5c4cc19c662c2fd3/9d839289fc1ad5cc.jpg",
-  "detailImg": "https://static.mcake.com/desc/baiselianren/pc.jpg",
+  "type": 1,
+  "img": "https://static.mcake.com/new_goods/mchocolate/R0201/list/1.jpg",
+  "bannerImg": "http://mcake.oss-cn-hangzhou.aliyuncs.com/file/d08d65c5c1e3ba42/862ec271eb66c6dc.jpg",
+  "detailImg": "https://static.mcake.com/desc/vsopshengqiao/pc.jpg",
   "time": "5",
-  "taste": "绵软细腻",
-  "flavor": "奶油/水果",
-  "flavorBase": "Whipping Cream",
-  "sweet": 1
+  "taste": "入口即化",
+  "flavor": "巧克力/白兰地",
+  "flavorBase": "Chocolate",
+  "sweet": 2
 }
 
 ###

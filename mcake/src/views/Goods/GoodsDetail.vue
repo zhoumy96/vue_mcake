@@ -23,7 +23,7 @@
               <span>甜味</span>
             </p>
             <div>
-              <span v-if="goodsData.tablewareNum!=0">标配餐具{{goodsData.tablewareNum}}份</span>
+              <span v-if="sku.tablewareNum!=0">标配餐具{{sku.tablewareNum}}份</span>
               <span>SIZE:{{sku.size}}</span>
             </div>
             <div class="tip">
@@ -96,15 +96,8 @@
                 'goodsName': this.goodsData.goodsNameCH,//商品中文名称
                 'price': this.price,// 单价
                 'img': this.goodsData.img,
-                'sku': {
-                  'skuId': this.sku.skuId,
-                  "size": this.sku.size,
-                  "weight": this.sku.weight,
-                  "fit": this.sku.fit,
-                  "price": this.sku.price
-                },
+                'sku': this.sku,
                 'cartNum': 1,//购买数量
-                'isChecked': true
               };
               this.$api.goods.addCart(params).then(res => {
                 if (res.status == '0') {

@@ -40,63 +40,75 @@
     data: () => {
       return {
         data: [],
-        moneyBoxVisible:false,//充值弹窗
-        money:0,//充值金额
+        moneyBoxVisible: false,//充值弹窗
+        money: 0,//充值金额
       }
     },
     mounted() {
-      this. getUser();
+      this.getUser();
     },
     methods: {
       ///获取用户信息
-      getUser(){
+      getUser() {
         this.$api.user.getUser()
-        .then(res=>{
-          this.data = res;
-          let data = {
-            user:res,
-            token:this.$store.state.token
-          };
-          this.$store.commit('userStatus',data);
-        }).catch(err=>{
+          .then(res => {
+            this.data = res;
+            let data = {
+              user: res,
+              token: this.$store.state.token
+            };
+            this.$store.commit('userStatus', data);
+          }).catch(err => {
           console.log(err);
         })
       },
       //充值
-      recharge(){
-        this.$api.user.recharge(this.money)
-        .then(res=>{
-          this.$message.success(res.msg);
-          this.data.money = res.data;
-          this.moneyBoxVisible = false;
-        }).catch(err=>{
-          this.$message.error(err.msg);
-        })
+      recharge() {
+        if (this.money && this.money > 0) {
+          this.$api.user.recharge(this.money)
+            .then(res => {
+              this.$message.success(res.msg);
+              this.data.money = res.data;
+              this.moneyBoxVisible = false;
+              this.money = 0;
+            }).catch(err => {
+            this.$message.error(err.msg);
+            this.money = 0;
+          })
+        } else {
+          this.$message.warning('请输入正确的金额')
+        }
+
       },
     }
   }
 </script>
 
 <style lang="less">
-  .myContent{
-    .myHeader{
+  .myContent {
+    .myHeader {
       display: flex;
       align-items: center;
-      h2{
+
+      h2 {
         margin-right: 22px;
         cursor: pointer;
       }
-      .money{
+
+      .money {
         margin-right: 22px;
-        span{
+
+        span {
           margin-right: 4px;
         }
       }
-      a{
+
+      a {
         display: inline-block;
         color: black;
       }
     }
+
     .moneyBox {
       /deep/ .el-dialog__body {
         padding: 0;
@@ -111,7 +123,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        input{
+
+        input {
           height: 28px;
         }
       }

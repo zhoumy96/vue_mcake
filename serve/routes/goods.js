@@ -63,7 +63,7 @@ router.post('/addGoods', async (req, res) => {
         }).catch(err => {
             res.send({
                 status: '1',
-                msg: '添加失败',
+                msg: '商品名称已存在',
                 data:err
             });
         });

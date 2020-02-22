@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 // 商品数据模型
 const productSchema = new Schema({
-    'goodsName':String,//商品名称
+    'goodsName':{type: String, unique: true},//商品名称
     'skuList':[
         {
             "size": String,//尺码 如31cm*8cm

@@ -150,12 +150,20 @@ router.post('/addAddress', auth, async (req, res) => {
     let address = req.body.address;
     console.log(`address is ${JSON.stringify(address)}`);
     req.user.addressList.push(address);
-    await req.user.save();
-    res.send({
-        status: 0,
-        msg: "新增成功",
-        data: req.user.addressList
-    });
+    await req.user.save()
+        .then(user=>{
+            res.send({
+                status: 0,
+                msg: "新增成功",
+                data: req.user.addressList
+            });
+        }).catch(err=>{
+            res.send({
+                status: 1,
+                msg: "新增失败",
+            });
+        });
+
 });
 
 // 编辑收获地址
@@ -174,12 +182,19 @@ router.post('/changeAddress', auth, async (req, res) => {
         }
     };
     if(isChange){
-        res.send({
-            status: 0,
-            msg: "修改成功",
-            data: req.user.addressList
-        });
-        await req.user.save();
+        await req.user.save()
+            .then(user=>{
+                res.send({
+                    status: 0,
+                    msg: "修改成功",
+                    data: req.user.addressList
+                });
+            }).catch(err=>{
+                res.send({
+                    status: 1,
+                    msg: "修改失败",
+                });
+            });
     }else{
         res.send({
             status: 1,
@@ -187,26 +202,6 @@ router.post('/changeAddress', auth, async (req, res) => {
             data: req.user.addressList
         });
     }
-    // req.user.addressList.forEach((_) => {
-    //     if (_._id == id) {
-    //         _.name = req.body.name;
-    //         _.address = req.body.address;
-    //         _.phone = req.body.phone;
-    //     } else {
-    //         res.send({
-    //             status: 1,
-    //             msg: "地址不存在",
-    //             data: req.user.addressList
-    //         });
-    //     }
-    // });
-    // await req.user.save();
-    // // console.log(`${JSON.stringify(req.user.addressList)}`);
-    // res.send({
-    //     status: 0,
-    //     msg: "修改成功",
-    //     data: req.user.addressList
-    // });
 });
 
 // 删除收获地址
@@ -222,12 +217,20 @@ router.post('/deleteAddress', auth, async (req, res) => {
         }
     };
     if(isDelete){
-        res.send({
-            status: 0,
-            msg: "删除成功",
-            data: req.user.addressList
-        });
-        await req.user.save();
+        await req.user.save()
+            .then(user=>{
+                res.send({
+                    status: 0,
+                    msg: "删除成功",
+                    data: req.user.addressList
+                });
+            }).catch(err=>{
+                console.log(err);
+                res.send({
+                    status: 1,
+                    msg: "删除失败",
+                });
+            });
     }else{
         res.send({
             status: 1,
@@ -239,7 +242,34 @@ router.post('/deleteAddress', auth, async (req, res) => {
 
 // 添加商品到购物车
 router.post('/addToCart', auth, async (req, res) => {
-    let goods = req.body;
+    let goods = req.body.goods;
+    let skuId = goods.sku._id;
+    goods.sku.id = skuId;
+    let isHave = false;
+    for(let item of req.user.cartList){
+       if(item.sku.id == skuId){
+           isHave = true;
+           item.cartNum += goods.cartNum;
+           break;
+       }
+    };
+    if(!isHave){
+        req.user.cartList.push(goods);
+    }
+    await req.user.save()
+        .then(user=>{
+            res.send({
+                status: 0,
+                msg: "添加成功",
+                data: req.user.cartList
+            });
+        }).catch(err=>{
+            res.send({
+                status: 1,
+                msg: "添加失败",
+            });
+        });
+
 });
 
 // 清空购物车

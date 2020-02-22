@@ -16,8 +16,7 @@
           <div class="cartImg">
             <img v-lazy="goods.img">
             <div>
-              <span>{{goods.goodsNameCH}}</span>
-              <span>{{goods.goodsNameEN}}</span>
+              <span>{{goods.goodsName}}</span>
               <span>￥{{price * num}}</span>
             </div>
           </div>
@@ -28,7 +27,7 @@
                 v-for="(item,index) in goods.skuList"
                 :key="index"
                 :value="item.fit?item.weight+' - '+item.fit:item.weight"
-                :value-key='item.skuId'>
+                :value-key='item._id'>
               </el-option>
             </el-select>
           </div>
@@ -51,8 +50,6 @@
 </template>
 
 <script>
-    import axios from 'axios';
-
     export default {
         name: "goodsItem",
         data() {
@@ -118,19 +115,10 @@
                 return;
               }
                 let params = {
-                    'goodsId': this.goods.goodsId,//商品id
-                    'goodsNameCH': this.goods.goodsName,//商品中文名称
-                    'price': this.price,// 单价
+                    'goodsName': this.goods.goodsName,//商品名称
                     'img': this.goods.img,
-                    'sku': {
-                        'skuId': this.sku.skuId,
-                        "size": this.sku.size,
-                        "weight": this.sku.weight,
-                        "fit": this.sku.fit,
-                        "price": this.sku.price
-                    },
+                    'sku': this.sku,
                     'cartNum': this.num,//购买数量
-                    'isChecked': true
                 };
                 this.addCart(params);
             },

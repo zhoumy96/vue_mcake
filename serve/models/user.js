@@ -14,12 +14,14 @@ const UserSchema = new Schema({
             "goodsName": String,//商品名称
             "img": String,//商品图片
             "sku": {
-                "size": String,
-                "weight": String,
-                "fit": String,
-                "price": String
+                "id":String,
+                "size": String,//尺码 如31cm*8cm
+                "weight": String,//重量 如1磅(454g)
+                "fit": String,//适合2-3人食
+                'tablewareNum':Number,//标配餐具
+                "price": String//价格
             },//商品sku
-            "cartNum": String,//购买数量
+            "cartNum": Number,//购买数量
         }
     ],
     "addressList": [

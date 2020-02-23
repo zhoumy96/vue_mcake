@@ -48,6 +48,11 @@ const routes = [
     ]
   },
   {
+    path: '/cart',
+    name: 'cart',
+    component: resolve => require(['../views/Cart.vue'], resolve),
+  },
+  {
     path: '/login',
     name: 'login',
     component: resolve => require(['../views/Login.vue'], resolve),

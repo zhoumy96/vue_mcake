@@ -245,6 +245,7 @@ router.post('/addToCart', auth, async (req, res) => {
     let goods = req.body.goods;
     let skuId = goods.sku._id;
     goods.sku.id = skuId;
+    // console.log(`goods is ${JSON.stringify(goods)}`);
     let isHave = false;
     for(let item of req.user.cartList){
        if(item.sku.id == skuId){

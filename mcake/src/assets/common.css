@@ -1,12 +1,36 @@
 /*:root{*/
 /*    font-size:10px;*/
 /*}*/
+/*滚动条整体部分,必须要设置*/
+::-webkit-scrollbar{
+     width: 4px;
+     height: 4px;
+     background-color: #999;
+}
+/*滚动条的轨道*/
+::-webkit-scrollbar-track{
+     background-color: #ddd;
+}
+/*滚动条的滑块按钮*/
+::-webkit-scrollbar-thumb{
+     background-color: #ccc;
+}
+/*滚动条的上下两端的按钮*/
+::-webkit-scrollbar-button{
+     height: 5px;
+     background-color: #fff;
+}
 html {
-    overflow-x:auto;
-    overflow-y:scroll;
+    /*隐藏滚动条，当IE下溢出，仍然可以滚动*/
+    -ms-overflow-style:none;
+    /*火狐下隐藏滚动条*/
+    overflow:-moz-scrollbars-none;
+    /*overflow-x:auto;*/
+    /*overflow-y:scroll;*/
     font-size:10px;
     height: 100%;
 }
+
 body, dl, dt, dd, ul, ol, li, pre, form, fieldset, input, p, blockquote, th, td {
     font-weight:400;
     margin:0;

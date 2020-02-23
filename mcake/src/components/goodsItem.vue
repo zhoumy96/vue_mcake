@@ -1,6 +1,6 @@
 <template>
   <div class="goodsItem" >
-    <img class='goodsImg' v-bind:src="goods.img" alt="" @click="toDetail">
+    <img class='goodsImg' v-lazy="goods.img" alt="" @click="toDetail">
     <h3>{{goods.goodsName}}</h3>
     <div class="goodsPrice">
       <span>￥{{goods.skuList[0].price}}</span>
@@ -114,10 +114,13 @@
                 this.$router.push('/login');
                 return;
               }
-                let params = {
+              // console.log(`this.goods.skuList is ${JSON.stringify(this.goods.skuList)} ${JSON.stringify(this.sku)}`);
+              let params = {
+                    'goodsId': this.goods._id,//商品id
                     'goodsName': this.goods.goodsName,//商品名称
                     'img': this.goods.img,
                     'sku': this.sku,
+                    'skuList': this.goods.skuList,//该商品所有skuList
                     'cartNum': this.num,//购买数量
                 };
                 this.addCart(params);

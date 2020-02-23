@@ -32,6 +32,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    min-width: 1280px;
     .content{
       flex: 1 0 auto;
       padding: 160px 7.5% 80px;

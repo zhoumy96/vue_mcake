@@ -61,6 +61,7 @@
     background-color: #000;
     color: #9c9c9c;
     flex: 0 0 auto;
+    min-width: 1280px;
     p{
       margin-bottom: 6px;
       text-align: left;

@@ -19,10 +19,12 @@
         </router-link>
       </div>
       <div class="cart">
-        <i>
-          <img v-bind:src="require('..//assets/imgs/cart.png')">
-          <span>购物车</span>
-        </i>
+        <router-link v-bind:to="'/cart'">
+          <i>
+            <img v-bind:src="require('..//assets/imgs/cart.png')">
+            <span>购物车</span>
+          </i>
+        </router-link>
       </div>
     </div>
 
@@ -73,6 +75,7 @@
   header{
     height: 120px;
     width: 85%;
+    min-width: 1280px;
     padding-left: 7.5%;
     padding-right: 7.5%;
     position: fixed;

@@ -11,6 +11,7 @@ const UserSchema = new Schema({
     "money": Number,//用户余额
     "cartList": [
         {
+            "goodsId": String,//商品Id
             "goodsName": String,//商品名称
             "img": String,//商品图片
             "sku": {
@@ -21,6 +22,15 @@ const UserSchema = new Schema({
                 'tablewareNum':Number,//标配餐具
                 "price": String//价格
             },//商品sku
+            "skuList":[
+                {
+                    "size": String,//尺码 如31cm*8cm
+                    "weight": String,//重量 如1磅(454g)
+                    "fit": String,//适合2-3人食
+                    'tablewareNum':Number,//标配餐具
+                    "price": String//价格
+                }
+            ],//商品所有的sku
             "cartNum": Number,//购买数量
         }
     ],

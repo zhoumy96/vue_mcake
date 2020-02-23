@@ -93,9 +93,11 @@
                 return;
               }
               let params = {
+                'goodsId': this.goodsData._id,//商品id
                 'goodsName': this.goodsData.goodsName,//商品名称
                 'img': this.goodsData.img,
-                'sku': this.sku,
+                'sku': this.sku,//购买的sku
+                'skuList': this.skuList,//该商品所有skuList
                 'cartNum': 1,//购买数量
               };
               this.$api.goods.addCart(params).then(res => {

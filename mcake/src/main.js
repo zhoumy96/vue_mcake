@@ -29,7 +29,7 @@ Vue.prototype.$api = api; // 将api挂载到vue的原型上
 
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token');
-  if (!token && to.path == '/my') {
+  if (!token && (to.path == '/my' || to.path == '/cart')) {
     next('/login');
   } else {
     next();

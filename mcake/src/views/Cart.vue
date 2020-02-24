@@ -12,7 +12,7 @@
     </div>
     <div class="cart-list">
       <div class="cart-item" v-for="goods in cartList" :key="goods._id">
-        <check-box @check="checkGoods($event,goods)"/>
+        <check-box @check="checkGoods($event,goods)" :isCheck="goods.isCheck"/>
         <div class="cart-img">
           <img v-lazy="goods.img" @click="toDetail(goods.goodsId)">
         </div>
@@ -51,7 +51,7 @@
       </div>
     </div>
     <div class="cart-btn">
-      <div class="pay-btn">结算</div>
+      <div class="pay-btn" @click="order">结算</div>
     </div>
   </div>
 </template>
@@ -80,6 +80,13 @@
         this.$api.user.getUser()
           .then(res => {
             this.cartList = res.cartList;
+            res.cartList.forEach((_)=>{
+              if(_.isCheck){
+                this.checkList.push(_);
+                this.totalNum += _.cartNum;
+                this.totalPrice += _.cartNum * Number.parseFloat(_.sku.price);
+              }
+            });
           }).catch(err => {
           console.log(err);
         })
@@ -209,6 +216,7 @@
           this.totalNum -= goods.cartNum;
           this.totalPrice -= goods.cartNum * goods.sku.price;
         }
+        this.saveCart(this.cartList,false);
       },
 
       //结算

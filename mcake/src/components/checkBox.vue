@@ -7,10 +7,21 @@
 <script>
   export default {
     name: "checkBox",
+    props: {
+      isCheck: {
+        type: Boolean,
+        default: false
+      },
+    },
     data: () => {
       return {
+        // state: this.isCheck,
         state: false,
       }
+    },
+    mounted() {
+      // console.log(`this is ${this.isCheck}`);
+      this.state = this.isCheck
     },
     methods: {
       changeState(){

@@ -1,13 +1,39 @@
 <template>
-    $END$
+  <div class="check-box">
+    <span :class="[state?'icon active':'icon']" @click="changeState"></span>
+  </div>
 </template>
 
 <script>
-    export default {
-        name: "checkBox"
+  export default {
+    name: "checkBox",
+    data: () => {
+      return {
+        state: false,
+      }
+    },
+    methods: {
+      changeState(){
+        this.state = !this.state;
+        this.$emit('check', this.state)
+      }
     }
+  }
 </script>
 
-<style scoped>
-
+<style lang="less">
+  .check-box {
+    width: 24px;
+    height: 24px;
+    .icon{
+      cursor: pointer;
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      background: url(../assets/imgs/icon09.png) no-repeat center;
+    }
+    .active{
+      background: url(../assets/imgs/icon10.png) no-repeat center;
+    }
+  }
 </style>

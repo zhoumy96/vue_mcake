@@ -12,6 +12,7 @@
     </div>
     <div class="cart-list">
       <div class="cart-item" v-for="goods in cartList" :key="goods._id">
+        <check-box @check="checkGoods($event,goods)"/>
         <div class="cart-img">
           <img v-lazy="goods.img" @click="toDetail(goods.goodsId)">
         </div>
@@ -41,17 +42,33 @@
         </div>
       </div>
     </div>
+    <div class="cart-pay">
+      <div class="pay-info">
+        共计{{totalNum}}件商品
+      </div>
+      <div class="pay-money">
+        合计：<span>￥{{totalPrice}}</span>
+      </div>
+    </div>
+    <div class="cart-btn">
+      <div class="pay-btn">结算</div>
+    </div>
   </div>
 </template>
 
 <script>
+  import checkBox from '../components/checkBox';
   export default {
     name: "Cart",
+    components: {
+      checkBox,
+    },
     data: () => {
       return {
         cartList: [],
-        chooseList:[],//勾选的商品
-        price:0,//总价
+        checkList:[],//勾选的商品
+        totalNum:0,//共计商品
+        totalPrice:0,//总价
       }
     },
     mounted() {
@@ -71,22 +88,53 @@
       toDetail(id) {
         this.$router.push({name: 'goodsDetail', params: {goodsId: id}})
       },
+      //保存数据
+      saveCart(cartList,showSuccess = true){
+        this.$api.user.saveCart(cartList)
+          .then(res => {
+            if (res.status == 0) {
+              if(showSuccess){
+                this.$message.success(res.msg);
+              }
+            } else {
+              this.$message.error(res.msg);
+            }
+          }).catch(err => {
+          this.$message.error(err.msg);
+        });
+      },
+
       // +:true -:false
       num(type,goods){
         let isCommit = true;
         if(type){
           goods.cartNum++;
+          if(goods.isCheck){//在购物车中被勾选
+            this.totalNum++;
+            this.totalPrice += Number.parseInt(goods.sku.price);
+          }
         }else{
-          goods.cartNum==1?isCommit = false:goods.cartNum--;
+          if(goods.cartNum==1){
+            isCommit = false;
+          }else{
+            goods.cartNum--;
+            if(goods.isCheck){//在购物车中被勾选
+              this.totalNum--;
+              this.totalPrice -= Number.parseInt(goods.sku.price);
+            }
+          }
         }
 
         if(isCommit){
-          this.saveCart(this.cartList);
+          this.saveCart(this.cartList,false);
         }
+
       },
+
       //修改sku
       chooseSku(weight,goods){
         // console.log(`${weight} goods is ${JSON.stringify(goods)}`);
+        let oldPrice = Number.parseFloat(goods.sku.price);
         //先修改本商品
         for(let item of goods.skuList){
           if(weight == item.weight){
@@ -95,6 +143,14 @@
             break;
           }
         }
+
+        //修改总价 共计
+        if(goods.isCheck){
+          let agio = goods.cartNum * (Number.parseFloat(goods.sku.price)-oldPrice);//差价
+          // console.log(`勾选了 agio is ${agio}`);
+          this.totalPrice += agio;
+        }
+
         //修改购物车列表 重复的合并
         if(goods.isSame){
           for(let item of this.cartList){
@@ -102,16 +158,22 @@
               // console.log('跳过不同商品和自己');
               continue;
             }else if(item.goodsId == goods.goodsId && goods.sku.id == item.sku.id){
-              // console.log('同商品同sku');
               item.cartNum += goods.cartNum;
               this.cartList.remove(goods);
-              break;
+              this.checkList.remove(goods);
+              item.isSame = false;
+              // break;
+            }else if(item.goodsId == goods.goodsId){
+              // console.log('同商品');
+              item.isSame = true;
             }
           }
         }
         //保存到数据库
         this.saveCart(this.cartList);
+
       },
+
       //删除商品
       delGoods(goods){
         this.$confirm('是否删除此商品?', '提示', {
@@ -121,6 +183,11 @@
         }).then(() => {
           this.cartList.remove(goods);
           this.saveCart(this.cartList);
+          if(goods.isCheck){//在购物车中被勾选
+            this.checkList.remove(goods);
+            this.totalNum -= goods.cartNum;
+            this.totalPrice -= goods.cartNum * Number.parseFloat(goods.sku.price);
+          }
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -129,19 +196,24 @@
         });
       },
 
+      //勾选商品
+      checkGoods(state,goods){
+        if(state){
+          goods.isCheck = true;
+          this.checkList.push(goods);
+          this.totalNum += goods.cartNum;
+          this.totalPrice += goods.cartNum * goods.sku.price;
+        }else{
+          goods.isCheck = false;
+          this.checkList.remove(goods);
+          this.totalNum -= goods.cartNum;
+          this.totalPrice -= goods.cartNum * goods.sku.price;
+        }
+      },
 
-      //保存数据
-      saveCart(cartList){
-        this.$api.user.saveCart(cartList)
-          .then(res => {
-            if (res.status == 0) {
-              this.$message.success(res.msg);
-            } else {
-              this.$message.error(res.msg);
-            }
-          }).catch(err => {
-          this.$message.error(err.msg);
-        });
+      //结算
+      order(){
+
       }
     }
   }
@@ -169,6 +241,7 @@
       }
     }
     .cart-list{
+      margin-bottom: 26px;
       .cart-item{
         display: flex;
         align-items: center;
@@ -263,6 +336,42 @@
             background: url(../assets/imgs/icon42.png) no-repeat center;
           }
         }
+      }
+    }
+    .cart-pay{
+      padding-left: 449px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .pay-info{
+        font-weight: bold;
+        color: #000;
+      }
+      .pay-money{
+        >span{
+          font-size: 26px;
+          font-weight: bold;
+          color: #000;
+        }
+      }
+    }
+    .cart-btn{
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 58px;
+      .pay-btn{
+        cursor: pointer;
+        border: none;
+        outline: none;
+        font-size: 15px;
+        color: #000;
+        font-weight: bold;
+        width: 150px;
+        height: 44px;
+        text-align: center;
+        line-height: 44px;
+        background: url(../assets/imgs/icon12.png) no-repeat center;
       }
     }
   }

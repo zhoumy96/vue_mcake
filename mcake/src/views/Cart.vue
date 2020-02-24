@@ -240,6 +240,12 @@
         font-size: 15px;
         margin-right: 128px;
       }
+      span:nth-child(2){
+        margin-right: 160px;
+      }
+      span:nth-child(4){
+        margin-right: 118px;
+      }
       .first{
         margin-left: 135px;
         margin-right: 340px;

@@ -16,12 +16,6 @@ const goods = {
       goodsId
     });
   },
-  // 添加商品到购物车
-  addCart(goods){
-    return axios.post(`user/addToCart`, {
-      goods
-    });
-  }
 
 }
 

@@ -42,6 +42,19 @@ const user = {
       id,address
     });
   },
+  // 添加商品到购物车
+  addCart(goods){
+    return axios.post(`user/addToCart`, {
+      goods
+    });
+  },
+  // 保存整个购物车
+  saveCart(cart){
+    return axios.post(`user/saveCart`, {
+      cart
+    });
+  },
+
 }
 
 export default user;

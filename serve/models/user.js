@@ -32,6 +32,7 @@ const UserSchema = new Schema({
                 }
             ],//商品所有的sku
             "cartNum": Number,//购买数量
+            "isSame":{type:Boolean,default:false}//是否有相同的商品 方便购物车修改是可以快速判断
         }
     ],
     "addressList": [

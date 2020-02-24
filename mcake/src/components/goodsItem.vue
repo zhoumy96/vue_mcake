@@ -127,7 +127,7 @@
             },
             //加入购物车
             addCart(params) {
-              this.$api.goods.addCart(params).then(res => {
+              this.$api.user.addCart(params).then(res => {
                 if (res.status == '0') {
                         this.addCartBoxVisible = false;
                         this.$message({

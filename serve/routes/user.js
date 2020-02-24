@@ -119,7 +119,7 @@ const auth = async (req, res, next) => {
         });
 };
 // 获取用户信息
-router.get('/getUser', auth,async (req, res) => {
+router.get('/getUser', auth, async (req, res) => {
     res.send(req.user);
 });
 
@@ -151,13 +151,13 @@ router.post('/addAddress', auth, async (req, res) => {
     console.log(`address is ${JSON.stringify(address)}`);
     req.user.addressList.push(address);
     await req.user.save()
-        .then(user=>{
+        .then(user => {
             res.send({
                 status: 0,
                 msg: "新增成功",
                 data: req.user.addressList
             });
-        }).catch(err=>{
+        }).catch(err => {
             res.send({
                 status: 1,
                 msg: "新增失败",
@@ -172,7 +172,7 @@ router.post('/changeAddress', auth, async (req, res) => {
     let address = req.body.address;
     console.log(`req.body is ${JSON.stringify(req.body)}`);
     let isChange = false;
-    for(let item of req.user.addressList){
+    for (let item of req.user.addressList) {
         if (item._id == id) {
             item.name = address.name;
             item.address = address.address;
@@ -180,22 +180,23 @@ router.post('/changeAddress', auth, async (req, res) => {
             isChange = true;
             break;
         }
-    };
-    if(isChange){
+    }
+    ;
+    if (isChange) {
         await req.user.save()
-            .then(user=>{
+            .then(user => {
                 res.send({
                     status: 0,
                     msg: "修改成功",
                     data: req.user.addressList
                 });
-            }).catch(err=>{
+            }).catch(err => {
                 res.send({
                     status: 1,
                     msg: "修改失败",
                 });
             });
-    }else{
+    } else {
         res.send({
             status: 1,
             msg: "地址不存在",
@@ -209,29 +210,30 @@ router.post('/deleteAddress', auth, async (req, res) => {
     let id = req.body.id;
     console.log(id);
     let isDelete = false;
-    for(let item of req.user.addressList){
+    for (let item of req.user.addressList) {
         if (item._id == id) {
             req.user.addressList.remove(item);
             isDelete = true;
             break;
         }
-    };
-    if(isDelete){
+    }
+    ;
+    if (isDelete) {
         await req.user.save()
-            .then(user=>{
+            .then(user => {
                 res.send({
                     status: 0,
                     msg: "删除成功",
                     data: req.user.addressList
                 });
-            }).catch(err=>{
+            }).catch(err => {
                 console.log(err);
                 res.send({
                     status: 1,
                     msg: "删除失败",
                 });
             });
-    }else{
+    } else {
         res.send({
             status: 1,
             msg: "地址不存在",
@@ -247,24 +249,31 @@ router.post('/addToCart', auth, async (req, res) => {
     goods.sku.id = skuId;
     // console.log(`goods is ${JSON.stringify(goods)}`);
     let isHave = false;
-    for(let item of req.user.cartList){
-       if(item.sku.id == skuId){
-           isHave = true;
-           item.cartNum += goods.cartNum;
-           break;
-       }
-    };
-    if(!isHave){
+    for (let item of req.user.cartList) {
+        if (goods.goodsId == item.goodsId) {//同一商品不同sku
+            goods.isSame = true;
+            item.isSame = true;
+            console.log('同一商品不同sku');
+        }
+        if (item.sku.id == skuId) {//同商品同sku
+            isHave = true;
+            item.cartNum += goods.cartNum;
+            item.isSame = false;
+            break;
+        }
+    }
+    ;
+    if (!isHave) {
         req.user.cartList.push(goods);
     }
     await req.user.save()
-        .then(user=>{
+        .then(user => {
             res.send({
                 status: 0,
                 msg: "添加成功",
                 data: req.user.cartList
             });
-        }).catch(err=>{
+        }).catch(err => {
             res.send({
                 status: 1,
                 msg: "添加失败",
@@ -273,6 +282,25 @@ router.post('/addToCart', auth, async (req, res) => {
 
 });
 
+// 保存整个购物车
+router.post('/saveCart', auth, async (req, res) => {
+    let cart = req.body.cart;
+    console.log(`cart is ${JSON.stringify(cart)}`);
+    req.user.cartList = cart;
+    await req.user.save()
+        .then(user => {
+            res.send({
+                status: 0,
+                msg: "修改成功",
+                data: req.user.cartList
+            });
+        }).catch(err => {
+            res.send({
+                status: 1,
+                msg: "修改失败",
+            });
+        });
+});
 // 清空购物车
 
 // 下单生成订单号

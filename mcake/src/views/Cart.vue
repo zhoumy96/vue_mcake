@@ -19,7 +19,7 @@
           <p class="name" @click="toDetail(goods.goodsId)">{{goods.goodsName}}</p>
         </div>
         <div class="cart-sku-list">
-          <el-select v-model="goods.sku.weight" @change="chooseSku">
+          <el-select v-model="goods.sku.weight" @change="chooseSku($event,goods)">
             <el-option
               v-for="(item,index) in goods.skuList"
               :key="index"
@@ -29,15 +29,15 @@
           </el-select>
         </div>
         <div class="cart-num">
-          <span class="jian" @click="goods.cartNum==1?null:goods.cartNum--">-</span>
+          <span class="jian" @click="num(false,goods)">-</span>
           <span class="number">{{goods.cartNum}}</span>
-          <span class="jia" @click="goods.cartNum++">+</span>
+          <span class="jia" @click="num(true,goods)">+</span>
         </div>
         <div class="cart-money">
           <span>￥{{goods.sku.price}}</span>
         </div>
         <div class="cart-operate">
-          <span class="del"></span>
+          <span class="del" @click="delGoods(goods)"></span>
         </div>
       </div>
     </div>
@@ -50,6 +50,8 @@
     data: () => {
       return {
         cartList: [],
+        chooseList:[],//勾选的商品
+        price:0,//总价
       }
     },
     mounted() {
@@ -69,9 +71,77 @@
       toDetail(id) {
         this.$router.push({name: 'goodsDetail', params: {goodsId: id}})
       },
-      ///
-      chooseSku(){
+      // +:true -:false
+      num(type,goods){
+        let isCommit = true;
+        if(type){
+          goods.cartNum++;
+        }else{
+          goods.cartNum==1?isCommit = false:goods.cartNum--;
+        }
 
+        if(isCommit){
+          this.saveCart(this.cartList);
+        }
+      },
+      //修改sku
+      chooseSku(weight,goods){
+        // console.log(`${weight} goods is ${JSON.stringify(goods)}`);
+        //先修改本商品
+        for(let item of goods.skuList){
+          if(weight == item.weight){
+            goods.sku = Object.assign({},item);
+            goods.sku.id = item._id;
+            break;
+          }
+        }
+        //修改购物车列表 重复的合并
+        if(goods.isSame){
+          for(let item of this.cartList){
+            if(!item.isSame || item._id == goods._id){
+              // console.log('跳过不同商品和自己');
+              continue;
+            }else if(item.goodsId == goods.goodsId && goods.sku.id == item.sku.id){
+              // console.log('同商品同sku');
+              item.cartNum += goods.cartNum;
+              this.cartList.remove(goods);
+              break;
+            }
+          }
+        }
+        //保存到数据库
+        this.saveCart(this.cartList);
+      },
+      //删除商品
+      delGoods(goods){
+        this.$confirm('是否删除此商品?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.cartList.remove(goods);
+          this.saveCart(this.cartList);
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+      },
+
+
+      //保存数据
+      saveCart(cartList){
+        this.$api.user.saveCart(cartList)
+          .then(res => {
+            if (res.status == 0) {
+              this.$message.success(res.msg);
+            } else {
+              this.$message.error(res.msg);
+            }
+          }).catch(err => {
+          this.$message.error(err.msg);
+        });
       }
     }
   }

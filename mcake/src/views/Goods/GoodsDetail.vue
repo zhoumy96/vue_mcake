@@ -100,7 +100,7 @@
                 'skuList': this.skuList,//该商品所有skuList
                 'cartNum': 1,//购买数量
               };
-              this.$api.goods.addCart(params).then(res => {
+              this.$api.user.addCart(params).then(res => {
                 if (res.status == '0') {
                   this.$message({
                     message: '添加到购物车成功',

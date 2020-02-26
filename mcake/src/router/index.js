@@ -53,6 +53,11 @@ const routes = [
     component: resolve => require(['../views/Cart.vue'], resolve),
   },
   {
+    path: '/pay',
+    name: 'pay',
+    component: resolve => require(['../views/Pay.vue'], resolve),
+  },
+  {
     path: '/login',
     name: 'login',
     component: resolve => require(['../views/Login.vue'], resolve),

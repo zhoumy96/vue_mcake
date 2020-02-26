@@ -118,6 +118,8 @@ const auth = async (req, res, next) => {
             });
         });
 };
+
+
 // 获取用户信息
 router.get('/getUser', auth, async (req, res) => {
     res.send(req.user);
@@ -285,7 +287,7 @@ router.post('/addToCart', auth, async (req, res) => {
 // 保存整个购物车
 router.post('/saveCart', auth, async (req, res) => {
     let cart = req.body.cart;
-    console.log(`cart is ${JSON.stringify(cart)}`);
+    // console.log(`cart is ${JSON.stringify(cart)}`);
     req.user.cartList = cart;
     await req.user.save()
         .then(user => {
@@ -301,11 +303,70 @@ router.post('/saveCart', auth, async (req, res) => {
             });
         });
 });
-// 清空购物车
 
-// 下单生成订单号
+// 下单(和付款是两种行为，下单后状态就是未付款，需要用户在进行付款)
+router.post('/order', auth, async (req, res) => {
+    let order = req.body.order;
+    order.status = 0;
+    req.user.orderList.push(order);
+    await req.user.save()
+        .then(user => {
+            let newOrder = [...user.orderList].pop();
+            res.send({
+                status: 0,
+                msg: "添加成功",
+                data: newOrder
+            });
+        }).catch(err => {
+            res.send({
+                status: 1,
+                msg: "下单失败",
+            });
+        });
+});
 
 // 修改订单状态
+router.post('/changeOrderStatus', auth, async (req, res) => {
+    let order = req.body.order;
+    let status = req.body.status;
+
+    let isSave = true;
+    // console.log(`orderId is ${orderId} status is ${status}`);
+    for (let item of req.user.orderList) {
+        if (item._id == order._id) {
+            if (status == 1 && req.user.money >= order.totalPrice) {//用户付款
+                req.user.money -= order.totalPrice;
+                order.status = status;
+            } else if (status == 1 && req.user.money < order.totalPrice) {
+                res.send({
+                    status: 1,
+                    msg: "余额不足",
+                });
+                isSave = false;
+            } else {
+                order.status = status;
+            }
+            break;
+        }
+    }
+
+    if(isSave){
+        await req.user.save()
+            .then(user => {
+                res.send({
+                    status: 0,
+                    msg: "修改订单状态成功",
+                    // data: newOrder
+                });
+            }).catch(err => {
+                res.send({
+                    status: 1,
+                    msg: "修改订单状态失败",
+                });
+            });
+    }
+
+});
 
 
 module.exports = router;

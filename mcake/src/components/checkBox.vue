@@ -23,6 +23,9 @@
       // console.log(`this is ${this.isCheck}`);
       this.state = this.isCheck
     },
+    created() {
+
+    },
     methods: {
       changeState(){
         this.state = !this.state;

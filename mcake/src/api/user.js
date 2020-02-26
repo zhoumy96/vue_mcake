@@ -54,7 +54,24 @@ const user = {
       cart
     });
   },
-
+  // 下单
+  order(order){
+    return axios.post('user/order',{
+      order
+    })
+  },
+  // 付款
+  pay(order){
+    return axios.post('user/changeOrderStatus',{
+      order,status:1
+    })
+  },
+  // 取消订单
+  cancel(order){
+    return axios.post('user/changeOrderStatus',{
+      order,status:-1
+    })
+  },
 }
 
 export default user;

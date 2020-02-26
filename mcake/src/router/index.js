@@ -40,12 +40,13 @@ const routes = [
         name: 'address',
         component: resolve => require(['../views/My/Address.vue'], resolve),
       },
-      // {
-      //   path: 'trace',
-      //   name: 'Trace',
-      //   component: Trace
-      // }
-    ]
+      {
+        path: 'order',
+        name: 'order',
+        component: resolve => require(['../views/My/Order.vue'], resolve),
+      }
+    ],
+
   },
   {
     path: '/cart',

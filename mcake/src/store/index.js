@@ -45,7 +45,8 @@ export default new Vuex.Store({
     },
     setOrder({commit}, order){
       commit('order', order)
-    }
+    },
+
   },
   getters: {
     getUser: state => state.user || localStorage.getItem('user'),

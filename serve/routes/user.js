@@ -331,12 +331,13 @@ router.post('/changeOrderStatus', auth, async (req, res) => {
     let status = req.body.status;
 
     let isSave = true;
-    // console.log(`orderId is ${orderId} status is ${status}`);
+
     for (let item of req.user.orderList) {
         if (item._id == order._id) {
             if (status == 1 && req.user.money >= order.totalPrice) {//用户付款
                 req.user.money -= order.totalPrice;
-                order.status = status;
+                item.status = status;
+                console.log("付款成功");
             } else if (status == 1 && req.user.money < order.totalPrice) {
                 res.send({
                     status: 1,
@@ -344,13 +345,13 @@ router.post('/changeOrderStatus', auth, async (req, res) => {
                 });
                 isSave = false;
             } else {
-                order.status = status;
+                item.status = status;
             }
             break;
         }
     }
 
-    if(isSave){
+    if (isSave) {
         await req.user.save()
             .then(user => {
                 res.send({

@@ -7,18 +7,12 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/user');
 const goodsRouter = require('./routes/goods');
 const newsRouter = require('./routes/news');
+const adminRouter = require('./routes/admin');
+
 
 const app = express();
-//
-// // 请求头 chorme cors协议
-// const allowCors = function(req, res, next) {
-//   res.header('Access-Control-Allow-Origin', req.headers.origin);
-//   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-//   res.header('Access-Control-Allow-Headers', 'Content-Type');
-//   res.header('Access-Control-Allow-Credentials','true');
-//   next();
-// };
-// app.use(allowCors);
+
+
 app.use(require('cors')());
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -34,6 +28,9 @@ app.use('/', indexRouter);
 app.use('/user', usersRouter);
 app.use('/goods', goodsRouter);
 app.use('/news', newsRouter);
+app.use('/admin', adminRouter);
+
+app.use('/public', express.static('public'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

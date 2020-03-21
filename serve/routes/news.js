@@ -32,6 +32,15 @@ router.get('/getNews', async (req, res) => {
     }
 });
 
+
+
+
+
+
+
+
+
+
 // 添加新闻
 router.post('/addNews', async (req, res) => {
     await News.create({
@@ -54,8 +63,8 @@ router.post('/addNews', async (req, res) => {
 });
 
 // 修改新闻
-router.post('/changeNews/:id', async (req, res) => {
-    let id = req.params.id;
+router.post('/changeNews', async (req, res) => {
+    let id = req.body._id;
     const news = await News.findById(id)
         .catch(err => {
             res.send({
@@ -82,12 +91,11 @@ router.post('/changeNews/:id', async (req, res) => {
                 data: err
             })
         });
-
 });
 
 // 删除新闻
-router.post('/deleteNews/:id', async (req, res) => {
-    let id = req.params.id;
+router.post('/delNews', async (req, res) => {
+    let id = req.body.id;
     const news = await News.findById(id)
         .catch(err => {
             res.send({

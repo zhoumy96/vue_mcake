@@ -11,6 +11,15 @@ Content-Type: application/json
   "userPwd":"123456"
 }
 
+### 注册
+POST http://localhost:3000/admin/upload
+Content-Type: application/json
+
+{
+  "userName":"admin",
+  "userPwd":"123456"
+}
+
 ### 登录
 POST http://localhost:3000/user/signIn
 Content-Type: application/json
@@ -96,7 +105,7 @@ POST http://localhost:3000/goods/addGoods
 Content-Type: application/json
 
 {
-  "goodsName": "V.S.O.P生巧",
+  "goodsName": "V.S.O.P生s巧",
   "skuList": [
     {
       "size": "15.5cm*11.5cm*2cm",

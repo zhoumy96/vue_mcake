@@ -41,7 +41,7 @@
         </div>
       </div>
       <div class="cart-btn">
-        <div v-if="item.status!=-1||item.status!=3" class="pay-btn cancel" @click="cancel(item)">取消订单</div>
+        <div v-if="item.status!=-1&&item.status!=3" class="pay-btn cancel" @click="cancel(item)">取消订单</div>
         <div v-if="item.status==0" class="pay-btn" @click="pay(item)">付款</div>
       </div>
     </div>

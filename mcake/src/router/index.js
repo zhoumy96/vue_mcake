@@ -62,7 +62,7 @@ const routes = [
     path: '/login',
     name: 'login',
     component: resolve => require(['../views/Login.vue'], resolve),
-  },
+  }
 ]
 
 const router = new VueRouter({

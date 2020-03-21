@@ -92,6 +92,10 @@ router.get('/users', async (req, res) => {
     res.send(users);
 });
 
+// 查询用户(模糊搜索name)
+router.get('/userByName', async (req, res) => {
+
+});
 
 // 用户认证中间件
 const auth = async (req, res, next) => {

@@ -13,7 +13,7 @@ const productSchema = new Schema({
             "price": String//价格
         }
     ],//商品所有sku
-    'type':Number,//分类 0:蛋糕 1:小食
+    'type':Number,//分类 0:蛋糕 1:小食 -1:所有
     'img':String,//预览图
     'bannerImg':String,//banner图
     'detailImg':String,//详情图
@@ -21,7 +21,6 @@ const productSchema = new Schema({
     'taste':String,//口感
     'flavor':String,//口味
     'flavorBase':String,//口味基底
-    'sweet':Number,//甜味 1-5
 
     'cartNum':Number,//购物车数量
     'isChecked':Boolean,//是否选中

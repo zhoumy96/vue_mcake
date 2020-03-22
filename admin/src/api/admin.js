@@ -41,6 +41,11 @@ const admin = {
     return axios.post(`goods/delGoods`, {id});
   },
 
+  //发货
+  deliver(userId,orderId){
+    return axios.post(`admin/deliver`, {userId,orderId});
+  }
+
 };
 
 export default admin;

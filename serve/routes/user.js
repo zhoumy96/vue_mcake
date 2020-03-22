@@ -131,8 +131,8 @@ router.get('/getUser', auth, async (req, res) => {
 
 // 充值
 router.post('/recharge', auth, async (req, res) => {
-    console.log(`req.user is ${req.user}`);
-    console.log(`req.body.money is ${req.body.money}`);
+    // console.log(`req.user is ${req.user}`);
+    // console.log(`req.body.money is ${req.body.money}`);
     req.user.money += Number(req.body.money);
     await req.user.save()
         .then(user => {

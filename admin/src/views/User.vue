@@ -65,6 +65,9 @@
               <span>{{ item._id }}</span>
               <span>金额：</span>
               <span>{{ item.totalPrice }}</span>
+              <span>状态：</span>
+              <span>{{ item.status==0?'未付款':item.status==1?'已付款未发货':item.status==2?'已发货':item.status==-1?'用户取消':'订单已完成'}}</span>
+              <el-button v-if="item.status==1"  @click="deliver(scope.row._id,item._id)">发货</el-button>
             </p>
           </div>
         </template>
@@ -78,19 +81,37 @@
     name: "User",
     data: () => {
       return {
-        userList:[]
+        userList:[],
+        showDetail: false,
       }
     },
     created() {
-      this.$api.admin.getUser()
-      .then(res=>{
-        this.userList = res;
-      }).catch(err=>{
-        console.log(err);
-      })
+      this.getUser();
     },
     methods:{
-
+      getUser(){
+        this.$api.admin.getUser()
+          .then(res=>{
+            this.userList = res;
+          }).catch(err=>{
+          console.log(err);
+        })
+      },
+      cancel() {
+        this.showDetail = false;
+      },
+      //发货
+      deliver(userId,orderId){
+        // console.log(userId);
+        // console.log(orderId);
+        this.$api.admin.deliver(userId,orderId)
+          .then(res=>{
+            this.$message.success('发货成功');
+            this.getUser();
+          }).catch(err=>{
+          console.log(err);
+        })
+      },
     }
   }
 </script>

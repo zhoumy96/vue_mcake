@@ -3,6 +3,7 @@ const router = express.Router();
 const path = require('path');
 const Admin = require('../models/admin');
 const News = require('../models/news');
+const User = require('../models/user');
 
 const formidable = require('formidable');
 
@@ -94,7 +95,46 @@ router.post('/signIn', async (req, res) => {
 
 });
 
+// 发货
+router.post('/deliver', async (req, res) => {
+    let _userId = req.body.userId;
+    let _orderId = req.body.orderId;
+    console.log(_userId,_orderId);
+    const user = await User.findById(_userId);
+    // console.log(user);
+    let isSave = true;
 
+    for (let item of user.orderList) {
+        console.log(item._id);
+        if (item._id == _orderId) {
+            item.status = 2;
+            isSave = true;
+            break;
+        }else{
+            isSave = false;
+            // console.log("false");
+        }
+    }
+
+    if (isSave) {
+        await user.save()
+            .then(user => {
+                res.send({
+                    status: 0,
+                    msg: "发货成功",
+                    // data: newOrder
+                });
+            }).catch(err => {
+                res.send({
+                    status: 1,
+                    msg: "发货失败",
+                });
+            });
+    }
+
+
+
+});
 
 
 module.exports = router;
